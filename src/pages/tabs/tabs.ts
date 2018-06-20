@@ -11,6 +11,12 @@ import { HomePage } from '../home/home';
 })
 export class TabsPage {
 
+  data = {
+    loggedin: this.navParams.get("loggedin") ,
+    employer: this.navParams.get("employer") ,
+    provider: this.navParams.get("provider")
+  }
+
   tab1Root = "AboutPage";
   tab2Root = HomePage;
   tab3Root = "ContactPage";

@@ -17,6 +17,7 @@ import * as firebase from 'firebase/app';
   templateUrl: 'login.html',
 })
 export class LoginPage {
+  loggedin = false;
   items: Observable<any[]>;
   credentials = {} as usercreds;
   displayName;
@@ -44,8 +45,12 @@ export class LoginPage {
 
   signin() {
     this.authservice.login(this.credentials).then((res: any) => {
-      if (!res.code)
-        this.navCtrl.setRoot('TabsPage');
+      if (!res.code) {
+        this.loggedin = true;
+        this.navCtrl.setRoot('TabsPage', {
+          loggedin: this.loggedin
+        });
+      }
       else
         alert(res);
     })

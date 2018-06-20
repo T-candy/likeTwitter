@@ -10,6 +10,8 @@ import { UserProvider } from '../../providers/user/user';
   templateUrl: 'contact.html'
 })
 export class ContactPage {
+
+  loggedin = this.navParams.get("loggedin");
   // userData: any;
   avatar: string;
   displayName: string;
@@ -26,6 +28,7 @@ export class ContactPage {
   // constructor(public navCtrl: NavController) {}
 
   ionViewWillEnter() {
+    console.log("trueの場合自分",this.loggedin);
     this.loaduserdetails();
   }
 

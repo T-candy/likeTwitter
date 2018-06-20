@@ -33,6 +33,7 @@ import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
 import { RequestsProvider } from '../providers/requests/requests';
 import { ChatProvider } from '../providers/chat/chat';
+import { FeedProvider } from '../providers/feed/feed';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCMiBzXKAXLRCHJbUTPi19aeo6MlGt26zk",
@@ -87,7 +88,8 @@ export const firebaseConfig = {
     UserProvider,
     ImghandlerProvider,
     RequestsProvider,
-    ChatProvider
+    ChatProvider,
+    FeedProvider
   ]
 })
 export class AppModule {}

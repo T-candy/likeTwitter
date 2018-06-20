@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-title>ホーム</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="composeTweet()">
+      <button ion-button icon-only (click)="addpost()">
         <ion-icon name="create"></ion-icon>
       </button>
     </ion-buttons>
@@ -10,20 +10,19 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-card>
+  <ion-card *ngFor = "let p of allposts;">
+    <ion-item>
+      <ion-avatar item-start (click)="profile()">
+        <img src="../assets/imgs/kao1.jpg">
+      </ion-avatar>
+      <h2>name</h2>
+      <p>@userid</p>
+    </ion-item>
 
-  <ion-item>
-    <ion-avatar item-start>
-      <img src="../assets/imgs/kao1.jpg">
-    </ion-avatar>
-    <h2>name</h2>
-    <p>@userid</p>
-  </ion-item>
-
-  <img src="../assets/imgs/back1.jpg" class="pictures">
+  <!-- <img src="../assets/imgs/back1.jpg" class="pictures"> -->
 
   <ion-card-content>
-    <p>contents</p>
+    <p>{{p.message}}</p>
   </ion-card-content>
 
   <ion-row>
@@ -41,7 +40,7 @@
     </ion-col>
     <ion-col center text-center>
       <ion-note>
-        11h ago
+        {{p.timestamp}}
       </ion-note>
     </ion-col>
   </ion-row>
