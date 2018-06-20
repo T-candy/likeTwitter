@@ -1,0 +1,27 @@
+<!--
+  Generated template for the ProfilepicPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header [hidden] = "user">
+  <ion-navbar color="hcolor">
+    <ion-title>profile picture</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h3 [hidden] = "!user">まずはプロフィール写真を設定しよう。</h3>
+  <div class="profile-image">
+    <img src="{{imgurl}}">
+  </div>
+  <div>
+    <button ion-button round (click)="chooseimage()">写真を選ぶ</button>
+  </div>
+  <div [hidden]="!moveon">
+    <button ion-button round outline (click)="proceed()">スキップ</button>
+  </div>
+  <div [hidden]="moveon">
+    <button ion-button round outline (click)="updateproceed()">Upload & proceed</button>
+  </div>
+</ion-content>

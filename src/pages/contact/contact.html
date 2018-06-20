@@ -1,17 +1,20 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
-      Contact
-    </ion-title>
+    <ion-title>プロフィール</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-list-header>Follow us on Twitter</ion-list-header>
-    <ion-item>
-      <ion-icon name="ionic" item-start></ion-icon>
-      @ionicframework
-    </ion-item>
-  </ion-list>
+  <ion-card>
+    <img src="../assets/imgs/back1.jpg" class="background-card">
+    <p text-center (click)="editimage()" class="pic">
+      <img src="{{avatar}}">
+    </p>
+    <ion-card-content>
+      <ion-card-title text-center (click)="editname()">{{displayName}}</ion-card-title>
+      <p>はじめまして！よろしくお願い致します。</p>
+    </ion-card-content>
+  </ion-card>
+
+  <button ion-button round outline small color="danger" (click)="logout()">Logout</button>
 </ion-content>

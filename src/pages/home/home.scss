@@ -1,3 +1,43 @@
 page-home {
 
+
+
+  .pictures {
+    height: 200px;
+  }
+
+  // iOS
+  .button-clear-ios-primary {
+      border-color: transparent;
+      background-color: transparent;
+      height: 8rem;
+  }
+
+  ///iOS
+
+  ion-col.responseIcon.col {
+      // z-index: 1000;
+      text-align: center;
+      // top: 37em;
+      bottom:7em;
+  }
+
+  ion-icon.dislikeicon.icon.icon-md.ion-md-close-circle {
+      background-color: white;
+      padding: 5.7px 0px;
+      border-radius: 0.6em;
+      border: 0.6rem solid #2f72f0;
+      /* padding: 0.0em; */
+      /* margin: 0px; */
+  }
+
+  ion-icon.likeicon.icon.icon-md.ion-md-heart {
+      background-color: white;
+      padding: 11px 4px 5px 4px;
+      border-radius: 0.8em;
+      border: 0.6rem solid #2f72f0;
+      /* padding: 0.0em; */
+      /* margin: 0px; */
+  }
+
 }

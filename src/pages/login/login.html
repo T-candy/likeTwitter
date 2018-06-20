@@ -1,0 +1,36 @@
+<ion-content class="background">
+  <ion-slides pager effect="slide" paginationType="bullets">
+    <ion-slide>
+      <h3 text-center>知り合いだけ</h3>
+      <p padding>新感覚チャットアプリ</p>
+    </ion-slide>
+    <ion-slide>
+      <h3 text-center>ラインでもツイッターでもない</h3>
+      <p padding>身内だけのアプリ</p>
+    </ion-slide>
+    <ion-slide>
+      
+      <ion-list padding no-line>
+        <ion-list-header>Login</ion-list-header>
+        <ion-item>
+          <ion-input type="email" placeholder="Email" [(ngModel)]="credentials.email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="password" placeholder="Password" [(ngModel)]="credentials.password"></ion-input>
+        </ion-item>
+        <p class="reset">パスワードを忘れましたか？<a margin (click)="passwordreset()">Get Help</a></p>
+        <p>
+          <button ion-button block round outline color="primary" (click)="signin()">ログイン</button>
+        </p>
+        <p>
+          <button ion-button block round (click)="facebookLogin()">Facebookでログインする</button>
+        </p>
+        <p>OR</p>
+        <p>
+          <button ion-button clear full color="gray" (click)="signup()">新規登録はこちら</button>
+        </p>
+      </ion-list>
+
+    </ion-slide>
+  </ion-slides>
+</ion-content>
