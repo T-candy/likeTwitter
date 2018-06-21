@@ -1,5 +1,13 @@
 page-contact {
 
+  .profile-card{
+    position: relative;
+
+    ion-card-content{
+      margin-top: 50px;
+    }
+  }
+
   .background-card{
       position: relative;
       width: 100%;
@@ -9,23 +17,20 @@ page-contact {
   .pic{
     position: absolute;
     width:100px;
-    top: 36%;
+    top: 35%;
     left: 35%;
     img{
       border-radius: 50%;
     }
   }
 
-ion-card-content{
-  margin-top: 50px;
-}
 
 
 .scroll-content {
-    align-content: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
+    // align-content: center;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // text-align: center;
 }
 }

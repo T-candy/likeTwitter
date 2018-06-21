@@ -29,11 +29,12 @@ export class BuddiesPage {
     public alertCtrl: AlertController,
     public requestservice: RequestsProvider
   ) {
+
     this.userservice.getallusers().then((res: any) => {
-      this.filteredusers = res;
-      this.temparr = res;
-   })
-  }
+          this.filteredusers = res;
+          this.temparr = res;
+      })
+   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BuddiesPage');

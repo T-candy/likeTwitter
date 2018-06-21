@@ -1,8 +1,9 @@
 import { Component,NgZone  } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Events } from 'ionic-angular';
 import firebase from 'firebase';
 import { ImghandlerProvider } from '../../providers/imghandler/imghandler';
 import { UserProvider } from '../../providers/user/user';
+import { FeedProvider } from '../../providers/feed/feed';
 
 @IonicPage()
 @Component({
@@ -12,24 +13,39 @@ import { UserProvider } from '../../providers/user/user';
 export class ContactPage {
 
   loggedin = this.navParams.get("loggedin");
-  // userData: any;
   avatar: string;
   displayName: string;
   email: string;
+  allmyposts = [];
 
   constructor(
     // private facebook: Facebook,
     public navCtrl: NavController,
     public navParams: NavParams,
     public userservice: UserProvider,
+    public feedservice: FeedProvider,
+    public events: Events,
     public zone: NgZone,
     public alertCtrl: AlertController,
-    public imghandler: ImghandlerProvider) {}
-  // constructor(public navCtrl: NavController) {}
+    public imghandler: ImghandlerProvider) {
+
+      this.events.subscribe('newmypost', () => {
+        this.allmyposts = [];
+        this.zone.run(() => {
+          this.allmyposts = this.feedservice.allmyposts;
+      })
+    })
+  }
 
   ionViewWillEnter() {
     console.log("trueの場合自分",this.loggedin);
+    console.log("自分の投稿",this.allmyposts);
     this.loaduserdetails();
+    this.loadmyposts();
+  }
+
+  loadmyposts() {
+    this.feedservice.getmyposts();
   }
 
 // ユーザー情報取得
@@ -45,25 +61,6 @@ export class ContactPage {
 
 // プロフィール写真変更
   editimage() {
-    // let statusalert = this.alertCtrl.create({
-    //   buttons: ['okay']
-    // });
-    // this.imghandler.uploadimage().then((url: any) => {
-    //   this.userservice.updateimage(url).then((res: any) => {
-    //     if (res.success) {
-    //       statusalert.setTitle('Updated');
-    //       statusalert.setSubTitle('Your profile pic has been changed successfully!!');
-    //       statusalert.present();
-    //       this.zone.run(() => {
-    //       this.avatar = url;
-    //     })
-    //     }
-    //   }).catch((err) => {
-    //       statusalert.setTitle('Failed');
-    //       statusalert.setSubTitle('Your profile pic was not changed');
-    //       statusalert.present();
-    //   })
-    //   })
       this.navCtrl.push('ProfilepicPage');
   }
 
@@ -113,9 +110,7 @@ export class ContactPage {
     alert.present();
   }
 
-  logout() {
-    firebase.auth().signOut().then(() => {
-      this.navCtrl.parent.parent.setRoot('LoginPage');
-    })
+  config() {
+    this.navCtrl.push('ConfigPage');
   }
 }

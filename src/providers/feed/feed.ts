@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import { Events } from 'ionic-angular';
+import { UserProvider } from '../../providers/user/user';
 
 /*
 Generated class for the FeedProvider provider.
@@ -11,45 +12,47 @@ and Angular DI.
 */
 @Injectable()
 export class FeedProvider {
-  firefeed = firebase.database().ref('/feeds');
+  firefeed = firebase.database().ref('/feed');
   allposts = [];
-  counts = [];
+  allmyposts = [];
+  avatar: string;
+  displayName: string;
+  comments = [];
 
-  constructor(public http: HttpClient,public events: Events) {
+  constructor(public http: HttpClient,
+    public events: Events,
+    public userservice: UserProvider
+) {
     console.log('Hello FeedProvider Provider');
   }
 
   // post追加
   addnewpost(post) {
-  this.countposts();
   var promise = new Promise((resolve, reject) => {
-    this.firefeed.child(firebase.auth().currentUser.uid).push({
-      message: post,
-      count: this.counts.length,
-      timestamp: firebase.database.ServerValue.TIMESTAMP
-    }).then(() => {
-      resolve(true);
-    }).catch((err) => {
-      reject(err);
+    this.userservice.getuserdetails().then((res: any) => {
+      this.displayName = res.displayName;
+      this.avatar = res.photoURL;
+      this.firefeed.child('posts').push().set({
+        message: post,
+        sentby: firebase.auth().currentUser.uid,
+        photoURL: this.avatar,
+        displayName: this.displayName,
+        postid: this.firefeed.child('posts').push().key,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      }).then(() => {
+        resolve(true);
+      }).catch((err) => {
+        reject(err);
+      })
     })
   })
   return promise;
 }
 
-//post数
-countposts() {
-this.firefeed.child(firebase.auth().currentUser.uid).on('value', (snapshot) => {
-  this.counts = [];
-  for (var key in snapshot.val()) {
-    this.counts.push(key);
-  }
-})
-}
-
 // Feed受信
 getposts() {
 let temp;
-this.firefeed.child(firebase.auth().currentUser.uid).orderByChild('count').limitToLast(20).on('value', (snapshot) => {
+this.firefeed.child('posts').orderByChild('timestamp').limitToLast(20).on('value', (snapshot) => {
   this.allposts = [];
   temp = snapshot.val();
   for (var tempkey in temp) {
@@ -57,6 +60,57 @@ this.firefeed.child(firebase.auth().currentUser.uid).orderByChild('count').limit
   }
   this.events.publish('newpost');
 })
+}
+
+// myFeed受信
+getmyposts() {
+let temp;
+this.firefeed.child('posts').on('value', (snapshot) => {
+  this.allmyposts = [];
+  temp = snapshot.val();
+  for (var tempkey in temp) {
+    if (temp[tempkey].sentby === firebase.auth().currentUser.uid) {
+      this.allmyposts.push(temp[tempkey]);
+    }
+  }
+  this.events.publish('newmypost');
+})
+}
+
+  //コメント追加
+  addnewcommet(thepost,comment) {
+  var promise = new Promise((resolve, reject) => {
+    this.userservice.getuserdetails().then((res: any) => {
+      this.displayName = res.displayName;
+      this.avatar = res.photoURL;
+      this.firefeed.child('comments').push().set({
+        comment: comment,
+        postid: thepost.postid,
+        sentby: firebase.auth().currentUser.uid,
+        photoURL: this.avatar,
+        displayName: this.displayName,
+        commentid: this.firefeed.child('comments').push().key,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      }).then(() => {
+        resolve(true);
+      }).catch((err) => {
+        reject(err);
+      })
+    })
+  })
+  return promise;
+  }
+
+  //投稿ごとのコメントを取得
+  getcomment() {
+  this.firefeed.child('comments').on('value', (snapshot) => {
+    this.comments = [];
+    temp = snapshot.val();
+    for (var tempkey in temp) {
+      this.comments.push(temp[tempkey]);
+    }
+    this.events.publish('newpost');
+  })
 }
 
 }

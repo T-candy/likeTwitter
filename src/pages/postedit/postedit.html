@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list [hidden]="!comment">
+    <ion-item *ngIf="thepost">
+      <ion-avatar item-start (click)="profile()">
+        <img src="{{thepost.photoURL}}">
+      </ion-avatar>
+      <h2>{{thepost.displayName}}</h2>
+      <p>@userid</p>
+    </ion-item>
+    <ion-item *ngIf="thepost">
+      {{thepost.message}}
+    </ion-item>
+
+    <form (ngSubmit)="newcomment()" padding>
+        <ion-item>
+          <ion-label floating>コメントする</ion-label>
+          <ion-textarea [(ngModel)]="thecomment" name="description" maxLength="100" rows="10" style="height:80%;"></ion-textarea>
+        </ion-item>
+        <div text-center>
+          <button ion-button type="submit" block>
+            <ion-icon ios="ios-send" md="md-send"></ion-icon>
+          </button>
+        </div>
+      </form>
+  </ion-list>
+
+  <form (ngSubmit)="newpost()" padding [hidden]="comment">
+      <ion-item>
+        <ion-label floating>新規投稿</ion-label>
+        <ion-textarea [(ngModel)]="post" name="description" maxLength="100" rows="15" style="height:100%;"></ion-textarea>
+      </ion-item>
+      <div text-center>
+        <button ion-button type="submit" block>
+          <ion-icon ios="ios-send" md="md-send"></ion-icon>
+        </button>
+      </div>
+    </form>
+</ion-content>

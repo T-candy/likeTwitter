@@ -1,5 +1,5 @@
 import { Component, ViewChild, ViewChildren, QueryList, NgZone  } from '@angular/core';
-import { NavController, AlertController, Events } from 'ionic-angular';
+import { NavController, AlertController, Events, NavParams, ModalController } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
 import { FeedProvider } from '../../providers/feed/feed';
 import firebase from 'firebase';
@@ -18,18 +18,28 @@ import { isEmpty } from 'rxjs/operator/isEmpty';
 })
 
 export class HomePage {
+  firedata = firebase.database().ref('/users');
+  loggedin = this.navParams.get("loggedin");
 
   post;
   allposts = [];
+  allmyposts = [];
   imgornot;
+  comment : any;
+  comments = [];
 
   temparr = [];
   filteredusers = [];
 
+  public tap: number = 0;
+  public count: number = 0;
+
   constructor(
     private http: Http,
     public navCtrl: NavController,
+    public navParams: NavParams,
     private alertCtrl: AlertController,
+    public modalCtrl: ModalController,
     public events: Events,
     public zone: NgZone,
     public userservice: UserProvider,
@@ -48,49 +58,40 @@ export class HomePage {
   })
   }
 
+  ionViewDidEnter() {
+    this.feedservice.getposts();
+    console.log(this.allposts);
+  }
+
   profile() {
     this.loggedin = false;
-    this.navCtrl.push(ContactPage, {
+    this.navCtrl.push('ContactPage', {
       loggedin: this.loggedin
     })
   }
 
   // 新規投稿
   addpost() {
-  let alert = this.alertCtrl.create({
-    title: '新規投稿',
-    inputs: [
-      {
-        name: 'post',
-        placeholder: '今どうしてる？'
-      }
-    ],
-    buttons: [
-      {
-        text: 'やめる',
-        role: 'cancel',
-        handler: data => {
-          console.log('Cancel clicked');
-        }
-      },
-      {
-        text: '投稿',
-        handler: data => {
-          console.log('message data:', data);
-          // this.post = data;
-          this.feedservice.addnewpost(data.post).then(() => {
-            this.post = '';
-          })
-      }
-    }
-  ]
-});
-alert.present();
+  this.comment = false;
+  let profileModal = this.modalCtrl.create('PosteditPage', {
+    comment: this.comment
+  });
+   profileModal.present();
 }
 
-ionViewDidEnter() {
-  this.feedservice.getposts();
-}
+ tapEvent(e) {
+    this.tap++
+  }
+
+  comments(p) {
+    this.post = p;
+    this.comment = true;
+    let profileModal = this.modalCtrl.create('PosteditPage', {
+      post: this.post,
+      comment: this.comment
+    });
+     profileModal.present();
+  }
 
 
 }

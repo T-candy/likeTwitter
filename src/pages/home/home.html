@@ -13,29 +13,27 @@
   <ion-card *ngFor = "let p of allposts;">
     <ion-item>
       <ion-avatar item-start (click)="profile()">
-        <img src="../assets/imgs/kao1.jpg">
+        <img src="{{p.photoURL}}">
       </ion-avatar>
-      <h2>name</h2>
+      <h2>{{p.displayName}}</h2>
       <p>@userid</p>
     </ion-item>
-
   <!-- <img src="../assets/imgs/back1.jpg" class="pictures"> -->
-
   <ion-card-content>
-    <p>{{p.message}}</p>
+    {{p.message}}
   </ion-card-content>
 
   <ion-row>
     <ion-col>
-      <button ion-button icon-start clear small>
+      <button ion-button icon-start clear small (tap)="tapEvent($event)">
         <ion-icon name="thumbs-up"></ion-icon>
-        <div>12 Likes</div>
+        <div>{{tap}} Likes</div>
       </button>
     </ion-col>
     <ion-col>
-      <button ion-button icon-start clear small>
+      <button ion-button icon-start clear small (click)="comments(p)">
         <ion-icon name="text"></ion-icon>
-        <div>4 Comments</div>
+        <div>{{count}} Comments</div>
       </button>
     </ion-col>
     <ion-col center text-center>

@@ -1,11 +1,16 @@
 <ion-header>
   <ion-navbar>
     <ion-title>プロフィール</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="config()">
+        <ion-icon name="cog"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-card>
+  <ion-card class="profile-card">
     <img src="../assets/imgs/back1.jpg" class="background-card">
     <p text-center (click)="editimage()" class="pic">
       <img src="{{avatar}}">
@@ -16,5 +21,19 @@
     </ion-card-content>
   </ion-card>
 
-  <button ion-button round outline small color="danger" (click)="logout()">Logout</button>
+  <ion-card>
+    <ion-list *ngFor = "let p of allmyposts;">
+      <ion-item>
+        <ion-avatar item-start>
+          <img src="{{avatar}}">
+        </ion-avatar>
+        <h2>{{displayName}}</h2>
+        <p>@userid</p>
+      </ion-item>
+      <!-- <img src="../assets/imgs/back1.jpg" class="pictures"> -->
+      <ion-card-content>
+        <p>{{p.message}}</p>
+      </ion-card-content>
+    </ion-list>
+  </ion-card>
 </ion-content>
